@@ -1,17 +1,28 @@
 import React, { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link } from "react-router-dom";
-import { appData } from "@/data/appData"; // Import your data
+import usePlaces from "@/hooks/usePlaces"; // 1. IMPORT THE HOOK
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
   const handleMenu = () => setMenu((prev) => !prev);
 
+  // 2. USE THE HOOK to get the dynamic categories
+  // We don't need to display a big "Loading..." message in a navbar,
+  // so we'll just wait for the data to be ready before rendering the links.
+  const { categories, loading, error } = usePlaces();
+
   // A helper function to create a menu item
-  const MenuItem = ({ to, children }: { to: string; children: React.ReactNode }) => (
+  const MenuItem = ({
+    to,
+    children,
+  }: {
+    to: string;
+    children: React.ReactNode;
+  }) => (
     <li>
       <Link to={to} onClick={handleMenu}>
-        <button className="mt-2 w-full text-left items-center font-poppins flex font-semibold text-[19px] text-black hover:bg-[#f0f0f0] py-2 px-6">
+        <button className="mt-1 w-full text-left items-center font-poppins flex font-semibold text-[18px] text-black hover:bg-[#f0f0f0] py-2 px-6">
           {children}
         </button>
       </Link>
@@ -27,34 +38,43 @@ const Navbar = () => {
           onClick={handleMenu}
         ></div>
       )}
-      
+
       {/* Sidedrawer */}
       <div
         className={
           menu
             ? "z-50 fixed left-0 top-0 rounded-r-[10px] w-[60%] h-full bg-white ease-in-out duration-500"
-            : "ease-in-out duration-500 fixed left-[-100%]"
+            : "ease-in-out duration-500 z-50 fixed left-[-100%]"
         }
       >
         <ul className="cursor-pointer">
           <li className="ml-6 mt-5 cursor-pointer pt-2 font-poppins text-blue-950 text-[20px] font-semibold">
             Hadrumet Passport
           </li>
-          
-          <MenuItem to="/">Home</MenuItem>
 
-          {/* DYNAMICALLY GENERATE CATEGORY LINKS */}
-          {appData.map(category => (
-            <MenuItem key={category.id} to={`/${category.slug}`}>
-              {category.name}
-            </MenuItem>
-          ))}
-          
+          <MenuItem to="/">Home</MenuItem>
+          <MenuItem to="/my-profile">My profile</MenuItem>
+
+          {/* 
+            3. DYNAMICALLY GENERATE CATEGORY LINKS from the hook's state.
+               This will only render the links once loading is false and there is no error.
+          */}
+          {!loading &&
+            !error &&
+            categories.map((category) => (
+              <MenuItem key={category.id} to={`/${category.slug}`}>
+                {category.name}
+              </MenuItem>
+            ))}
+
           {/* Other static links */}
           <MenuItem to="/emergency">Emergency numbers</MenuItem>
-          <MenuItem to="/profile">My profile</MenuItem>
-          <MenuItem to="/support">Support</MenuItem>
-          <MenuItem to="/logout">Log Out</MenuItem>
+          <MenuItem to="/local-apps">Local Apps</MenuItem>
+          <MenuItem to="/contacts">Contacts</MenuItem>
+
+          <MenuItem to="/eps">Other EPs</MenuItem>
+          <MenuItem to="/about-us">About Us</MenuItem>
+          <MenuItem to="/login">Log Out</MenuItem>
         </ul>
       </div>
 

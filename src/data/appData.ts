@@ -19,7 +19,7 @@ import  izi from "../assets/images/money_exchange/izi.jpg"
 
 export interface Element {
   id: number;
-  slug: string; // URL-friendly name, e.g., "da-remi"
+  slug: string;
   title: string;
   image: string;
   speciality: string;

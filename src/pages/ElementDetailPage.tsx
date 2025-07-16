@@ -3,47 +3,61 @@ import Navbar from "@/components/ui/Navbar";
 import { FiPhone } from "react-icons/fi";
 import { IoMdTime } from "react-icons/io";
 import { MdOutlinePlace, MdOutlineDeliveryDining } from "react-icons/md";
-import { appData } from "@/data/appData"; // Import our data
+import usePlaces from "@/hooks/usePlaces"; // <-- IMPORT THE HOOK
 
 const ElementDetailPage = () => {
-  // Get both slugs from the URL
   const { categorySlug, elementSlug } = useParams();
+  // Use the hook to get all data, loading, and error states
+  const { categories, loading, error } = usePlaces();
 
-  // Find the correct category
-  const category = appData.find((cat) => cat.slug === categorySlug);
-  // Find the correct element within that category
-  const element = category?.elements.find((el) => el.slug === elementSlug);
+  // --- RENDER STATES ---
 
-  // If we can't find the element, show an error
-  if (!element || !category) {
+  if (loading) {
     return (
       <div>
         <Navbar />
-        <h1 className="text-center text-2xl font-bold mt-10">
-          Item not found!
-        </h1>
+        <h1 className="text-center text-2xl font-bold mt-10">Loading Item...</h1>
+      </div>
+    );
+  }
+  
+  if (error) {
+    return (
+      <div>
+        <Navbar />
+        <h1 className="text-center text-2xl font-bold mt-10 text-red-500">Error: {error}</h1>
       </div>
     );
   }
 
+  // Find the correct category and element AFTER data has loaded
+  const category = categories.find((cat) => cat.slug === categorySlug);
+  const element = category?.elements.find((el) => el.slug === elementSlug);
+
+  if (!element || !category) {
+    return (
+      <div>
+        <Navbar />
+        <h1 className="text-center text-2xl font-bold mt-10">Item not found!</h1>
+      </div>
+    );
+  }
+
+  // --- RENDER CONTENT ---
   return (
     <div>
       <Navbar />
-      {/* Dynamic Breadcrumb */}
       <div className="ml-6 mt-3 pt-2 font-poppins text-blue-950 text-[23px] font-bold tracking-wide">
-        <Link
-          to={`/${category.slug}`}
-          className="underline "
-        >
+        <Link to={`/${category.slug}`} className="underline">
           {category.name}
         </Link>
-        <span className="">/{element.title}</span>
+        <span>/{element.title}</span>
       </div>
 
       <div className="mx-6">
         <div className="w-full mt-5">
           <img
-            src={element.image}
+            src={element.image || '/default-placeholder.png'} // Add a fallback image
             className="w-full object-cover h-[200px] rounded-md"
             alt={element.title}
           />
@@ -59,7 +73,6 @@ const ElementDetailPage = () => {
               {element.description}
             </p>
 
-            {/* Conditionally render details if they exist in the data */}
             {element.phone && (
               <div className="flex items-center mt-4">
                 <FiPhone size={20} className="text-blue-950" />
@@ -76,11 +89,7 @@ const ElementDetailPage = () => {
               </h3>
             </div>
 
-            <a
-              href={element.location}
-              target="_blank"
-              rel="noopener noreferrer"
-            >
+            <a href={element.location} target="_blank" rel="noopener noreferrer">
               <div className="flex items-center mt-2">
                 <MdOutlinePlace size={25} className="text-blue-950" />
                 <h3 className="text-blue-950 ml-2 font-semibold text-[17px] hover:underline">
