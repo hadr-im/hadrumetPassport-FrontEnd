@@ -8,10 +8,10 @@ const AdminPanel = () => {
   return (
     <div className=" py-9 px-8">
       <ContactsTable />
-      <EPsTable />
       <APPsTable />
       <EventsTable />
       <PlacesTable />
+      <EPsTable />
     </div>
   )
 }

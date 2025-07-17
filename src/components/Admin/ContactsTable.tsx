@@ -1,34 +1,22 @@
+import { useEffect, useState } from "react";
 import { Contact } from "lucide-react";
-import { useState } from "react";
+
+const API_URL = "http://localhost:3000/api/contacts";
+
 interface Contact {
+  id: string;
   picture: string;
   name: string;
   position: string;
   phone: string;
   fb: string;
 }
-const ContactsTable = () => {
-  const [contacts, setContacts] = useState<Contact[]>([
-    {
-      picture:
-        "https://static.vecteezy.com/system/resources/previews/006/390/348/non_2x/simple-flat-isolated-people-icon-free-vector.jpg",
-      name: "Med Helmi Essouid",
-      position: "LCVP IM",
-      phone: "93034808",
-      fb: "https://www.facebook.com/Med.Helmi.Souaied",
-    },
-    {
-      picture:
-        "https://static.vecteezy.com/system/resources/previews/006/390/348/non_2x/simple-flat-isolated-people-icon-free-vector.jpg",
-      name: "Oussama Rachdi",
-      position: "Manager IM",
-      phone: "99578819",
-      fb: "https://www.facebook.com/search/top?q=oussama%20rachdi",
-    },
-  ]);
 
+const ContactsTable = () => {
+  const [contacts, setContacts] = useState<Contact[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
   const [editData, setEditData] = useState<Contact>({
+    id: "",
     picture: "",
     name: "",
     position: "",
@@ -36,10 +24,50 @@ const ContactsTable = () => {
     fb: "",
   });
 
-  const handleAdd = () => {
-    setContacts([...contacts, { ...editData }]);
+  // Helper to map frontend contact to backend contact
+  const toBackend = (contact: Contact) => ({
+    fullName: contact.name,
+    role: contact.position,
+    phone: contact.phone,
+    picture: contact.picture,
+    facebookLink: contact.fb,
+  });
+
+  // Helper to map backend contact to frontend contact
+  const toFrontend = (item: any): Contact => ({
+    id: item.id,
+    picture: item.picture || "https://static.vecteezy.com/system/resources/previews/006/390/348/non_2x/simple-flat-isolated-people-icon-free-vector.jpg",
+    name: item.fullName,
+    position: item.role,
+    phone: item.phone ? String(item.phone) : "",
+    fb: item.facebookLink || "",
+  });
+
+  // Fetch contacts from backend
+  const fetchContacts = () => {
+    const token = localStorage.getItem("token");
+    fetch(API_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setContacts(data.map(toFrontend));
+      })
+      .catch((err) => {
+        console.error("Failed to fetch contacts:", err);
+      });
+  };
+
+  useEffect(() => {
+    fetchContacts();
+  }, []);
+
+  const handleAdd = async () => {
     setEditIndex(contacts.length);
-    setEditData({ picture: "", name: "", position: "", phone: "", fb: "" });
+    setEditData({ id: "", picture: "", name: "", position: "", phone: "", fb: "" });
+    setContacts([...contacts, { id: "", picture: "", name: "", position: "", phone: "", fb: "" }]);
   };
 
   const handleEdit = (index: number) => {
@@ -47,18 +75,74 @@ const ContactsTable = () => {
     setEditData({ ...contacts[index] });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editIndex === null) return;
-    const updated = [...contacts];
-    updated[editIndex] = editData;
-    setContacts(updated);
-    setEditIndex(null);
+    const token = localStorage.getItem("token");
+    const isNew = !editData.id;
+    const backendData = toBackend(editData);
+    try {
+      let updatedContact: Contact | null = null;
+      if (isNew) {
+        // Create
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(backendData),
+        });
+        if (!res.ok) throw new Error("Failed to create contact");
+        const data = await res.json();
+        updatedContact = toFrontend(data);
+      } else {
+        // Update
+        const res = await fetch(`${API_URL}/${editData.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(backendData),
+        });
+        if (!res.ok) throw new Error("Failed to update contact");
+        const data = await res.json();
+        updatedContact = toFrontend(data);
+      }
+      // Update state
+      const updated = [...contacts];
+      updated[editIndex] = updatedContact!;
+      setContacts(updated.filter((c) => c));
+      setEditIndex(null);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save contact");
+    }
   };
 
-  const handleDelete = (index: number) => {
-    const updated = contacts.filter((_, i) => i !== index);
-    setContacts(updated);
-    if (editIndex === index) setEditIndex(null);
+  const handleDelete = async (index: number) => {
+    const contact = contacts[index];
+    if (!contact.id) {
+      // Just remove from state if not saved yet
+      setContacts(contacts.filter((_, i) => i !== index));
+      if (editIndex === index) setEditIndex(null);
+      return;
+    }
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API_URL}/${contact.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) throw new Error("Failed to delete contact");
+      setContacts(contacts.filter((_, i) => i !== index));
+      if (editIndex === index) setEditIndex(null);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete contact");
+    }
   };
 
   return (

@@ -1,10 +1,10 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import  { useState } from "react";
+import { useEffect, useState } from "react";
 
-import yassir from "../../assets/images/local_apps/yassir.png";
-import kool from "../../assets/images/local_apps/kool.png";
+const API_URL = "http://localhost:3000/api/localapps";
 
 interface App {
+  id: string;
   label: string;
   icon: string;
   android: string;
@@ -12,60 +12,140 @@ interface App {
 }
 
 const APPsTable = () => {
-  const [apps, setApps] = useState<App[]>([
-    {
-      label: "Yassir",
-      icon: yassir,
-      android: "https://play.google.com/store/apps/details?id=com.yatechnologies.yassir_rider",
-      ios: "https://apps.apple.com/tn/app/yassir/id1239926325",
-    },
-    {
-      label: "Kool",
-      icon: kool,
-      android: "https://play.google.com/store/apps/details?id=com.mohamedhadiji.kool",
-      ios: "https://apps.apple.com/us/app/kool-delivery/id1545409489",
-    },
-  ]);
-
+  const [apps, setApps] = useState<App[]>([]);
   const [editIndex, setEditIndex] = useState<number | null>(null);
-  const [editData, setEditData] = useState<App>({ 
-    label: "", 
-    android: "", 
-    ios: "", 
-    icon: "" 
+  const [editData, setEditData] = useState<App>({
+    id: "",
+    label: "",
+    android: "",
+    ios: "",
+    icon: ""
   });
+
+  // Helper to map frontend app to backend app
+  const toBackend = (app: App) => ({
+    name: app.label,
+    androidLink: app.android,
+    iosLink: app.ios,
+    picture: app.icon,
+  });
+
+  // Helper to map backend app to frontend app
+  const toFrontend = (item: any): App => ({
+    id: item.id,
+    label: item.name,
+    android: item.androidLink,
+    ios: item.iosLink,
+    icon: item.picture || "",
+  });
+
+  // Fetch apps from backend
+  const fetchApps = () => {
+    const token = localStorage.getItem("token");
+    fetch(API_URL, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setApps(data.map(toFrontend));
+      })
+      .catch((err) => {
+        console.error("Failed to fetch local apps:", err);
+      });
+  };
+
+  useEffect(() => {
+    fetchApps();
+  }, []);
 
   const handleEdit = (index: number) => {
     setEditIndex(index);
     setEditData({ ...apps[index] });
   };
 
-  const handleSave = () => {
+  const handleSave = async () => {
     if (editIndex === null) return;
-    
-    const updatedApps = [...apps];
-    updatedApps[editIndex] = editData;
-    setApps(updatedApps);
-    setEditIndex(null);
+    const token = localStorage.getItem("token");
+    const isNew = !editData.id;
+    const backendData = toBackend(editData);
+    try {
+      let updatedApp: App | null = null;
+      if (isNew) {
+        // Create
+        const res = await fetch(API_URL, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(backendData),
+        });
+        if (!res.ok) throw new Error("Failed to create app");
+        const data = await res.json();
+        updatedApp = toFrontend(data);
+      } else {
+        // Update
+        const res = await fetch(`${API_URL}/${editData.id}`, {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+            Authorization: `Bearer ${token}`,
+          },
+          body: JSON.stringify(backendData),
+        });
+        if (!res.ok) throw new Error("Failed to update app");
+        const data = await res.json();
+        updatedApp = toFrontend(data);
+      }
+      // Update state
+      const updated = [...apps];
+      updated[editIndex] = updatedApp!;
+      setApps(updated.filter((a) => a));
+      setEditIndex(null);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to save app");
+    }
   };
 
   const handleCancel = () => {
     setEditIndex(null);
   };
 
-  const handleAdd = () => {
+  const handleAdd = async () => {
     setApps([
       ...apps,
-      { label: "", icon: "", android: "", ios: "" },
+      { id: "", label: "", icon: "", android: "", ios: "" },
     ]);
     setEditIndex(apps.length);
-    setEditData({ label: "", icon: "", android: "", ios: "" });
+    setEditData({ id: "", label: "", icon: "", android: "", ios: "" });
   };
 
-  const handleDelete = (index: number) => {
-    const updatedApps = apps.filter((_, i) => i !== index);
-    setApps(updatedApps);
-    if (editIndex === index) setEditIndex(null);
+  const handleDelete = async (index: number) => {
+    const app = apps[index];
+    if (!app.id) {
+      // Just remove from state if not saved yet
+      setApps(apps.filter((_, i) => i !== index));
+      if (editIndex === index) setEditIndex(null);
+      return;
+    }
+    const token = localStorage.getItem("token");
+    try {
+      const res = await fetch(`${API_URL}/${app.id}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      if (!res.ok) throw new Error("Failed to delete app");
+      setApps(apps.filter((_, i) => i !== index));
+      if (editIndex === index) setEditIndex(null);
+    } catch (err) {
+      console.error(err);
+      alert("Failed to delete app");
+    }
   };
 
   const buttonClass =
