@@ -11,6 +11,8 @@ import LocalApps from "./pages/LocalApps";
 import Login from "./pages/Login";
 import AdminPanel from "./pages/Admin/AdminPanel";
 import Events from "./pages/Events";
+import AdminLogin from "./pages/AdminLogin";
+import RequireAdminAuth from "./components/RequireAdminAuth";
 
 const App = () => {
   return (
@@ -27,7 +29,12 @@ const App = () => {
           <Route path="/emergency" element={<EmergencyContacts />} />
           <Route path="/local-apps" element={<LocalApps />} />
           <Route path="/login" element={<Login />} />
-          <Route path="/dep/im/admin" element={<AdminPanel />} />
+          <Route path="/admin-login" element={<AdminLogin />} />
+          <Route path="/dep/im/admin" element={
+            <RequireAdminAuth>
+              <AdminPanel />
+            </RequireAdminAuth>
+          } />
           <Route path="/events" element={<Events />} />
           <Route path="/events/:eventSlug" element={<Events />} />
 

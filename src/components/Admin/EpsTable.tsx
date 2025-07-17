@@ -22,7 +22,7 @@ const EPsTable = () => {
   const [feedback, setFeedback] = useState("");
 
   useEffect(() => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     fetch(API_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -51,7 +51,7 @@ const EPsTable = () => {
 
   const handleRealizedChange = async (index: number, value: boolean) => {
     const user = eps[index];
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     const userId = user.id; // now applicationId
     try {
       const res = await fetch(`http://localhost:3000/api/users/${userId}`, {
@@ -77,7 +77,7 @@ const EPsTable = () => {
     setSending(true);
     setFeedback("");
     const user = eps[index];
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch("http://localhost:3000/api/sendEmail", {
         method: "POST",

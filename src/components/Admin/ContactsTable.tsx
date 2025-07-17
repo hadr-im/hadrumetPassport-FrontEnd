@@ -45,7 +45,7 @@ const ContactsTable = () => {
 
   // Fetch contacts from backend
   const fetchContacts = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     fetch(API_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -77,7 +77,7 @@ const ContactsTable = () => {
 
   const handleSave = async () => {
     if (editIndex === null) return;
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     const isNew = !editData.id;
     const backendData = toBackend(editData);
     try {
@@ -128,7 +128,7 @@ const ContactsTable = () => {
       if (editIndex === index) setEditIndex(null);
       return;
     }
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(`${API_URL}/${contact.id}`, {
         method: "DELETE",

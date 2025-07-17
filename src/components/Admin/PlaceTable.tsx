@@ -52,7 +52,7 @@ const PlacesTable = () => {
 
   // Fetch places from backend
   const fetchPlaces = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     fetch(API_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ const PlacesTable = () => {
 
   const handleSave = async () => {
     if (editIndex === null) return;
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     const isNew = !editData.id;
     const backendData = toBackend(editData);
     try {
@@ -135,7 +135,7 @@ const PlacesTable = () => {
       if (editIndex === index) setEditIndex(null);
       return;
     }
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(`${API_URL}/${place.id}`, {
         method: "DELETE",

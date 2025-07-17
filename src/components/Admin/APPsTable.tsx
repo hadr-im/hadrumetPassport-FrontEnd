@@ -41,7 +41,7 @@ const APPsTable = () => {
 
   // Fetch apps from backend
   const fetchApps = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     fetch(API_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -67,7 +67,7 @@ const APPsTable = () => {
 
   const handleSave = async () => {
     if (editIndex === null) return;
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     const isNew = !editData.id;
     const backendData = toBackend(editData);
     try {
@@ -131,7 +131,7 @@ const APPsTable = () => {
       if (editIndex === index) setEditIndex(null);
       return;
     }
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(`${API_URL}/${app.id}`, {
         method: "DELETE",
