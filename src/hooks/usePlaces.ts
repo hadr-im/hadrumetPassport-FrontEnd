@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState, useEffect } from "react";
 import axios from "axios";
+import { getAuthHeaders } from "./apiHelper";
 
 // --- INTERFACES ---
 
@@ -54,9 +55,6 @@ const slugify = (text: string) =>
 // Capitalizes the first letter of a string (e.g., "cafes" -> "Cafes")
 const capitalize = (s: string) => s.charAt(0).toUpperCase() + s.slice(1);
 
-
-
-
 const usePlaces = () => {
   const [categories, setCategories] = useState<FrontendCategory[]>([]);
   const [loading, setLoading] = useState(true);
@@ -64,13 +62,14 @@ const usePlaces = () => {
 
   useEffect(() => {
     const fetchAndProcessPlaces = async () => {
+      const headers = getAuthHeaders();
       try {
         const API_URL = "http://192.168.1.131:3000";
-        const response = await axios.get<ApiPlace[]>(`${API_URL}/api/places/`);
+        const response = await axios.get<ApiPlace[]>(`${API_URL}/api/places/`, {
+          headers: headers,
+        });
         const apiPlaces = response.data;
 
-        // --- CORE TRANSFORMATION LOGIC ---
-        // This turns the flat API list into the nested structure your components need.
         const groupedByCategory: Record<string, FrontendCategory> = {};
 
         apiPlaces.forEach((place) => {
@@ -96,9 +95,9 @@ const usePlaces = () => {
             location: place.google_maps_url,
             phone: place.phone,
             // Add default values for fields not in your API response
-            speciality: "N/A", 
+            speciality: "N/A",
             working_time: "09:00 - 22:00",
-            delivery: false
+            delivery: false,
           };
 
           // Add the transformed element to the correct category
@@ -108,14 +107,26 @@ const usePlaces = () => {
         // Convert the grouped object back into an array
         const processedData = Object.values(groupedByCategory);
         setCategories(processedData);
-        
-      } catch (err: any) {
-        if (err.response) {
-            setError("Failed to load places from the server.");
-        } else if (err.request) {
-            setError("Network Error: Could not connect to the server.");
+      } catch (error: any) {
+        if (error.response) {
+          // Server responded with a status code that falls out of the range of 2xx
+          console.error("Error response data:", error.response.data);
+
+          // Safely access the error message
+          const errorMessage =
+            error.response.data?.error ||
+            error.response.data?.message ||
+            "An unexpected error occurred.";
+
+          setError(errorMessage);
+        } else if (error.request) {
+          // The request was made but no response was received
+          console.error("Error request:", error.request);
+          setError("Network error. Please check your connection.");
         } else {
-            setError("An unexpected error occurred.");
+          // Something happened in setting up the request that triggered an Error
+          console.error("Error message:", error.message);
+          setError("An error occurred. Please try again.");
         }
       } finally {
         setLoading(false);

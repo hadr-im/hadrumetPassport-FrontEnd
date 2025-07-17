@@ -5,16 +5,16 @@ import usePlaces from "@/hooks/usePlaces"; // <-- IMPORT THE HOOK
 
 const CategoryPage = () => {
   const { categorySlug } = useParams<{ categorySlug: string }>();
-  // Use the hook to get all data, loading, and error states
   const { categories, loading, error } = usePlaces();
-
-  // --- RENDER STATES ---
 
   if (loading) {
     return (
       <div>
         <Navbar />
-        <h1 className="text-center text-blue-950 text-2xl font-bold mt-10">Loading...</h1>
+
+        <h1 className="text-center  text-blue-950 text-2xl font-bold mt-10">
+          Loading...
+        </h1>
       </div>
     );
   }
@@ -30,16 +30,18 @@ const CategoryPage = () => {
     );
   }
 
-  // Find the category AFTER data has loaded
   const category = categories.find((cat) => cat.slug === categorySlug);
 
   if (!category) {
     return (
-      <div>
+      <div className="flex flex-col h-screen">
         <Navbar />
-        <div className="w-full  text-center mt-10 p-4 bg-red-100 border border-red-400 text-red-700 rounded">
-          <h1 className="text-xl font-bold">Category Not Found</h1>
-          <p>{error}</p>
+        <div className="flex-grow grid place-items-center px-6">
+          {/* 3. Your content box, with no centering classes needed */}
+          <div className="w-full max-w-md p-4 bg-red-100 border border-red-400 text-red-700 rounded text-center">
+            <h1 className="text-xl font-bold">Category Not Found</h1>
+            <p>{error}</p>
+          </div>
         </div>
       </div>
     );

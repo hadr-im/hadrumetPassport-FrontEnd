@@ -48,7 +48,7 @@ const ProfileCard = ({
   }
 
   return (
-    <div className="mt-5  text-gray-800 font-sans space-y-4">
+    <div className="mt-5 mb-7  text-gray-800 font-sans space-y-4">
       {/* Profile */}
       <div className="flex flex-col items-center">
         <img
@@ -105,7 +105,7 @@ const ProfileCard = ({
       </div>
 
       {/* Location */}
-      <div className="bg-white rounded-xl shadow-md p-3">
+      <div className="bg-white rounded-xl shadow-md p-3 mb-7">
         <div className=" mb-2 flex items-center gap-2  font-medium text-lg text-blue-950">
           <FaMapMarkerAlt size={16} />
           <p className="font-medium">Location</p>

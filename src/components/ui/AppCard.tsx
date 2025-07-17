@@ -2,22 +2,23 @@ import {
   FaAndroid,
   FaAppStoreIos,
 } from "react-icons/fa";
-interface AppCardProps {
-  label: string;
-  icon: React.ReactNode;
-  android?: string;
-  ios?: string;
+interface App {
+  id: string;
+  name: string;
+  androidLink: string;
+  iosLink: string;
+  picture: string;
 }
-const AppCard = ({ label, icon, android, ios }: AppCardProps) => (
+const AppCard = ({ name, androidLink, iosLink,picture  }: App) => (
   <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center text-center ">
     <div className="">
-      {icon}
+      {picture}
     </div>
-    <p className="font-semibold text-blue-950 text-xl mt-2">{label}</p>
+    <p className="font-semibold text-blue-950 text-xl mt-2">{name}</p>
     <div className="flex flex-col items-center mt-1 justify-center ">
-      {android && (
+      {androidLink && (
         <a
-          href={android}
+          href={androidLink}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center text-green-600 hover:underline text-base font-semibold"
@@ -26,9 +27,9 @@ const AppCard = ({ label, icon, android, ios }: AppCardProps) => (
           Android
         </a>
       )}
-      {ios && (
+      {iosLink && (
         <a
-          href={ios}
+          href={iosLink}
           target="_blank"
           rel="noopener noreferrer"
           className="flex items-center mt-1 text-blue-600 hover:underline text-base font-semibold"

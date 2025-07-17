@@ -4,7 +4,7 @@ import { TiSocialFacebookCircular } from "react-icons/ti";
 interface PersonInfo {
   image: string;
   name: string;
-  phone: number;
+  phone: string;
   nationality: string;
   experience: string;
   term: string;
@@ -47,7 +47,7 @@ const PersonCard = ({
           </a>
         )}
         <h1 className=" text-md font-semibold text-gray-900">{position}</h1>
-        <h1 className=" text-md text-gray-900">{nationality} </h1>
+        <h1 className=" text-md text-gray-900"> from {nationality} </h1>
         <h3 className=" text-md text-gray-900">{experience}</h3>
         <h3 className=" text-md text-gray-900">{term}</h3>
       </div>

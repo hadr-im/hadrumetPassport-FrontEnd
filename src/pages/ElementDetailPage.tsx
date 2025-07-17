@@ -7,10 +7,7 @@ import usePlaces from "@/hooks/usePlaces"; // <-- IMPORT THE HOOK
 
 const ElementDetailPage = () => {
   const { categorySlug, elementSlug } = useParams();
-  // Use the hook to get all data, loading, and error states
   const { categories, loading, error } = usePlaces();
-
-  // --- RENDER STATES ---
 
   if (loading) {
     return (

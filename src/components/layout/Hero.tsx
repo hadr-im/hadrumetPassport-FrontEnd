@@ -1,10 +1,8 @@
 import ImageCarousel from "../ui/ImageCarousel";
 import { IoRestaurant } from "react-icons/io5";
 import { FaCoffee } from "react-icons/fa";
-import { FaShoppingCart } from "react-icons/fa";
 import { HiCurrencyEuro } from "react-icons/hi";
 import { FaDumbbell } from "react-icons/fa6";
-import { PiSwimmingPoolBold } from "react-icons/pi";
 import park from "../../assets/images/Sousse/s5.jpg";
 import GenericCard from "../ui/GenericCard";
 
@@ -21,11 +19,6 @@ const Hero = () => {
       logo: <FaCoffee size={35} className="text-blue-950" />,
     },
     {
-      id: 3,
-      name: "shopping",
-      logo: <FaShoppingCart size={35} className="text-blue-950" />,
-    },
-    {
       id: 4,
       name: "Money exchange",
       logo: <HiCurrencyEuro size={35} className="text-blue-950" />,
@@ -35,11 +28,7 @@ const Hero = () => {
       name: "Gym",
       logo: <FaDumbbell size={35} className="text-blue-950" />,
     },
-    {
-      id: 6,
-      name: "Water Parks",
-      logo: <PiSwimmingPoolBold size={35} className="text-blue-950" />,
-    },
+   
   ];
   return (
     <div className=" w-full h-full flex flex-col mb-16">

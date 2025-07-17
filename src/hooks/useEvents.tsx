@@ -1,27 +1,25 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
-import axios from "axios";
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { getAuthHeaders } from "./apiHelper";
+import axios from "axios";
 
-// The interface remains the same, which is great.
-interface Contact {
+interface Event {
   id: string;
-  image: string;
-  fullName: string;
-  phone: string;
-  facebook_link: string;
-  role: string;
+  title: string;
+  description: string;
+  location: string;
+  dayTime: string;
+  startDate: string;
+  endDate: string;
+  picture: string;
+    eventType: string
 }
-
-const useContacts = () => {
-  const [loading, setLoading] = useState(true); 
+const useEvents = () => {
+  const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
-  const [contacts, setContacts] = useState<Contact[]>([]);
-  
+  const [events, setEvents] = useState<Event[]>([]);
 
-  // useEffect will run once when the hook is first used, thanks to the empty dependency array [].
-  useEffect(() => {
-    // We define an async function inside useEffect to perform the data fetching
+   useEffect(() => {
     const fetchContacts = async () => {
       setLoading(true); // Ensure loading is true at the start of the fetch
       setError("");
@@ -29,7 +27,7 @@ const useContacts = () => {
         const headers = getAuthHeaders();
         // As before, ensure the protocol (http://) is present
         const response = await axios.get(
-          "http://192.168.1.131:3000/api/contacts",
+          "http://192.168.1.131:3000/api/events",
           {
             headers: headers
           }
@@ -37,7 +35,7 @@ const useContacts = () => {
 
         if (response.status === 200) {
           console.log(response.data);
-          setContacts(response.data);
+          setEvents(response.data);
         }
       } catch (error: any) {
             if (error.response) {
@@ -65,12 +63,11 @@ const useContacts = () => {
 
     fetchContacts(); // Call the async function
   }, []); 
-
   return {
     loading,
     error,
-    contacts,
+    events
   };
 };
 
-export default useContacts;
+export default useEvents;

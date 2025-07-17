@@ -1,15 +1,17 @@
 import React, { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import usePlaces from "@/hooks/usePlaces"; // 1. IMPORT THE HOOK
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
   const handleMenu = () => setMenu((prev) => !prev);
-
-  // 2. USE THE HOOK to get the dynamic categories
-  // We don't need to display a big "Loading..." message in a navbar,
-  // so we'll just wait for the data to be ready before rendering the links.
+  const navigate = useNavigate();
+  const handleLogout = () => {
+    localStorage.removeItem("token");
+    window.location.reload();
+    navigate("/login");
+  };
   const { categories, loading, error } = usePlaces();
 
   // A helper function to create a menu item
@@ -68,13 +70,17 @@ const Navbar = () => {
             ))}
 
           {/* Other static links */}
+          <MenuItem to="/events">Events</MenuItem>
           <MenuItem to="/emergency">Emergency numbers</MenuItem>
           <MenuItem to="/local-apps">Local Apps</MenuItem>
           <MenuItem to="/contacts">Contacts</MenuItem>
 
           <MenuItem to="/eps">Other EPs</MenuItem>
           <MenuItem to="/about-us">About Us</MenuItem>
-          <MenuItem to="/login">Log Out</MenuItem>
+            <button onClick={handleLogout} className="mt-1 w-full text-left items-center font-poppins flex font-semibold text-[18px] text-black hover:bg-[#f0f0f0] py-2 px-6">
+              Log out
+            </button>
+          
         </ul>
       </div>
 
