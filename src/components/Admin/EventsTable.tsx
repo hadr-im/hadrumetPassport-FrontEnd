@@ -52,7 +52,7 @@ const EventsTable = () => {
 
   // Fetch events from backend
   const fetchEvents = () => {
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     fetch(API_URL, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -84,7 +84,7 @@ const EventsTable = () => {
 
   const handleSave = async () => {
     if (editIndex === null) return;
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     const isNew = !editData.id;
     const backendData = toBackend(editData);
     try {
@@ -135,7 +135,7 @@ const EventsTable = () => {
       if (editIndex === index) setEditIndex(null);
       return;
     }
-    const token = localStorage.getItem("token");
+    const token = localStorage.getItem("adminToken");
     try {
       const res = await fetch(`${API_URL}/${event.id}`, {
         method: "DELETE",
