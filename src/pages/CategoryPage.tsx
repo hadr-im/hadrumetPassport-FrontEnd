@@ -51,7 +51,7 @@ const CategoryPage = () => {
   return (
     <div>
       <Navbar />
-      <h1 className="ml-6 mt-3 pt-2 font-poppins text-blue-950 text-[23px] font-bold tracking-wide">
+      <h1 className="ml-6 mt-3 pt-2 font-poppins  tracking-wide underline text-blue-950 font-poppins font-semibold text-[22px]">
         {category.name}
       </h1>
       <div className="mx-6 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">

@@ -2,14 +2,17 @@ import React, { useState } from "react";
 import { RxHamburgerMenu } from "react-icons/rx";
 import { Link, useNavigate } from "react-router-dom";
 import usePlaces from "@/hooks/usePlaces"; // 1. IMPORT THE HOOK
+import { useAuth } from "@/context/AuthContext"; // 1. IMPORT useAuth
+
 
 const Navbar = () => {
   const [menu, setMenu] = useState(false);
   const handleMenu = () => setMenu((prev) => !prev);
   const navigate = useNavigate();
+  const { user, logout } = useAuth(); // 2. GET USER AND LOGOUT FROM CONTEXT
+
   const handleLogout = () => {
-    localStorage.removeItem("token");
-    window.location.reload();
+    logout(); // 3. USE LOGOUT FROM CONTEXT
     navigate("/login");
   };
   const { categories, loading, error } = usePlaces();
@@ -76,7 +79,6 @@ const Navbar = () => {
           <MenuItem to="/contacts">Contacts</MenuItem>
 
           <MenuItem to="/eps">Other EPs</MenuItem>
-          <MenuItem to="/about-us">About Us</MenuItem>
             <button onClick={handleLogout} className="mt-1 w-full text-left items-center font-poppins flex font-semibold text-[18px] text-black hover:bg-[#f0f0f0] py-2 px-6">
               Log out
             </button>
@@ -95,7 +97,7 @@ const Navbar = () => {
             <RxHamburgerMenu color="#000000" size={28} />
           </button>
           <div className="pt-2 ml-4 font-poppins text-blue-950 text-[20px] font-semibold">
-            Hello, Oussama Rachdi
+           Hello, {user ? user.fullName : "Guest"}
           </div>
         </div>
       </div>

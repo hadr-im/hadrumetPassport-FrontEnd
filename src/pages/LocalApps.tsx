@@ -41,7 +41,7 @@ const LocalApps = () => {
     <div>
       <Navbar />
       <div className="mx-6 mt-8 flex flex-col ">
-        <h1 className=" underline text-black font-poppins font-semibold text-[22px]">
+        <h1 className=" underline text-blue-950 font-poppins font-semibold text-[22px]">
           Local Apps
         </h1>
 
