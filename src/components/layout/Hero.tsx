@@ -1,37 +1,46 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 import ImageCarousel from "../ui/ImageCarousel";
 import { IoRestaurant } from "react-icons/io5";
 import { FaCoffee } from "react-icons/fa";
 import { HiCurrencyEuro } from "react-icons/hi";
 import { FaDumbbell } from "react-icons/fa6";
-import park from "../../assets/images/Sousse/s5.jpg";
 import GenericCard from "../ui/GenericCard";
+import useEvents from "@/hooks/useEvents";
+import useCategories from "@/hooks/usecategories";
+import { useMemo } from "react";
+import { Link } from "react-router-dom";
 
 const Hero = () => {
-  const categories = [
-    {
-      id: 1,
-      name: "Restaurants",
-      logo: <IoRestaurant size={35} className="text-blue-950" />,
-    },
-    {
-      id: 2,
-      name: "Coffe Shops",
-      logo: <FaCoffee size={35} className="text-blue-950" />,
-    },
-    {
-      id: 4,
-      name: "Money exchange",
-      logo: <HiCurrencyEuro size={35} className="text-blue-950" />,
-    },
-    {
-      id: 5,
-      name: "Gym",
-      logo: <FaDumbbell size={35} className="text-blue-950" />,
-    },
-   
-  ];
+  const { events, loading, error } = useEvents();
+  const { catLoading, catError, categories } = useCategories();
+  const slugify = (text: string) =>
+    text
+      .toString()
+      .toLowerCase()
+      .trim()
+      .replace(/\s+/g, "-") // Replace spaces with -
+      .replace(/[^\w\\-]+/g, "") // Remove all non-word chars
+      .replace(/\\-\\-+/g, "-"); // Replace multiple - with single -
+
+  const categoryLogos: { [key: string]: React.ReactElement } = {
+    Restaurants: <IoRestaurant size={35} className="text-blue-950" />,
+    "Coffe Shops": <FaCoffee size={35} className="text-blue-950" />,
+    "Money exchange": <HiCurrencyEuro size={35} className="text-blue-950" />,
+    Gym: <FaDumbbell size={35} className="text-blue-950" />,
+    // Add more mappings as needed
+  };
+
+  const displayCategories = useMemo(() => {
+    return categories.map((category) => ({
+      id: category.id,
+      name: category.label,
+      logo: categoryLogos[category.label] , 
+      linkTo: `/${slugify(category.label)}`, // Create the link using the label
+    }));
+  }, [categories]);
+
   return (
-    <div className=" w-full h-full flex flex-col mb-16">
+       <div className=" w-full h-full flex flex-col mb-16">
       {/**mobile */}
       <div className=" mt-2  ">
         <h1 className=" mx-4 text-black  font-poppins font-semibold text-[22px]">
@@ -42,31 +51,59 @@ const Hero = () => {
         </div>
 
         {/**categories */}
-        <div className="   w-full mt-6">
-          <div className=" mx-4 grid grid-cols-4 gap-x-5 gap-y-4  ">
-            {categories.map((category,index) => (
-              <div key={index} className=" shadow-lg flex rounded-lg bg-white duration-300 transition-colors ease-in-out  hover:bg-blue-600/15 cursor-pointer  border-blue-950 border-2 p-5 items-center ">
-                {category.logo}
-              </div>
-            ))}
+        <div className="w-full mt-6">
+          <div className="mx-4 grid grid-cols-4 gap-x-5 gap-y-4">
+            {/* 5. Handle loading and error states for categories */}
+            {catLoading ? (
+              <p>Loading categories...</p>
+            ) : catError ? (
+              <p className="text-red-500">{catError}</p>
+            ) : (
+              // 6. Map over the new 'displayCategories' array
+              displayCategories.map((category) => (
+                <Link to={category.linkTo} key={category.id}>
+                  <div
+                    className="shadow-lg flex justify-center rounded-lg bg-white duration-300 transition-colors ease-in-out hover:bg-blue-600/15 cursor-pointer border-blue-950 border-2 p-5 items-center"
+                  >
+                    {category.logo}
+                  </div>
+                </Link>
+              ))
+            )}
           </div>
         </div>
+        
         {/**events */}
-        <div className="mx-4  mt-6">
-          <h1 className=" text-black  font-poppins font-semibold text-[22px]">
-            Events
-          </h1>
-          <GenericCard
-            linkTo=""
-            image={park}
-            description=" "
-            type="Outing"
-            title="Visitting the Kantaoui"
-            speciality=""
-            date="12 Jul, 10 AM"
-            location="https://www.google.com/maps/place/Port+El+Kantaoui/@35.8902918,10.5905234,16z/data=!4m10!1m2!2m1!1sPort+El-Kantaoui!3m6!1s0x12fd89ecfd64d773:0xf1f190f2015f81ef!8m2!3d35.8924975!4d10.5998394!15sChBQb3J0IEVsLUthbnRhb3VpWhIiEHBvcnQgZWwga2FudGFvdWmSAQhzZWFfcG9ydKoBOBABMh4QASIahG99Jolt6_jn8rXXVncoUTdQt0AKIrfRlPIyFBACIhBwb3J0IGVsIGthbnRhb3Vp4AEA!16zL20vMDR4aDJx?entry=ttu&g_ep=EgoyMDI1MDcwNy4wIKXMDSoASAFQAw%3D%3D"
-            working_time=""
-          />
+        <div className="mx-4 mt-6">
+          {loading ? (
+            <p>Loading events...</p>
+          ) : error ? (
+            <p className="text-red-500">{error}</p>
+          ) : events.length > 0 ? (
+            <div>
+              <h1 className="text-black font-poppins font-semibold text-[22px]">
+                Events
+              </h1>
+              {events.map((event) => (
+                <GenericCard
+                  key={event.id}
+                  type={event.eventType ?? ""}
+                  linkTo={`/events/${slugify(event.title)}`}
+                  image={event.picture}
+                  speciality=""
+                  description={event.description}
+                  title={event.title}
+                  date={event.startDate}
+                  location={event.location}
+                  working_time={event.dayTime}
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="w-full text-center mt-10">
+              <p className="text-gray-400 text-xl">No Events found.</p>
+            </div>
+          )}
         </div>
       </div>
     </div>

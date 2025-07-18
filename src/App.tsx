@@ -42,6 +42,7 @@ const App = () => {
               }
             />
             <Route path="/events" element={<Events />} />
+            
             <Route path="/events/:eventSlug" element={<EventDetail />} />
 
             <Route path="/:categorySlug" element={<CategoryPage />} />

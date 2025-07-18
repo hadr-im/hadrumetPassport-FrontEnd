@@ -64,7 +64,7 @@ const usePlaces = () => {
     const fetchAndProcessPlaces = async () => {
       const headers = getAuthHeaders();
       try {
-        const API_URL = "http://192.168.1.131:3000";
+        const API_URL = "http://192.168.1.131:3000"; 
         const response = await axios.get<ApiPlace[]>(`${API_URL}/api/places/`, {
           headers: headers,
         });
