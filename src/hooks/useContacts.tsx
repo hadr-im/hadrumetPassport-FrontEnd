@@ -19,6 +19,16 @@ const useContacts = () => {
   const [contacts, setContacts] = useState<Contact[]>([]);
   
 
+  // Helper to map backend contact to frontend contact
+  const toFrontend = (item: any): Contact => ({
+    id: item.id,
+    image: item.picture || "", // Map 'picture' from API to 'image' for frontend
+    fullName: item.fullName,
+    phone: item.phone ? String(item.phone) : "",
+    facebook_link: item.facebookLink || "",
+    role: item.role,
+  });
+
   // useEffect will run once when the hook is first used, thanks to the empty dependency array [].
   useEffect(() => {
     // We define an async function inside useEffect to perform the data fetching
@@ -29,15 +39,14 @@ const useContacts = () => {
         const headers = getAuthHeaders();
         // As before, ensure the protocol (http://) is present
         const response = await axios.get(
-          "http://192.168.1.131:3000/api/contacts",
+          "http://localhost:3000/api/contacts",
           {
             headers: headers
           }
         );
 
         if (response.status === 200) {
-          console.log(response.data);
-          setContacts(response.data);
+          setContacts(response.data.map(toFrontend));
         }
       } catch (error: any) {
             if (error.response) {

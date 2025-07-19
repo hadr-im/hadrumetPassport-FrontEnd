@@ -56,7 +56,7 @@ const ProfileCard = ({
           alt="Profile"
           className="w-24 h-24 rounded-full object-cover shadow-md border-2 border-white"
         />
-        <h2 className="text-blue-950 text-xl font-semibold mt-3">{name}</h2>
+        <h2 className="text-blue-950 text-xl font-semibold mt-2">{name}</h2>
         <p className="text-md text-gray-900">Exchange participant</p>
         <p className="text-sm text-gray-400">Hadrumet, Tunisia</p>
       </div>

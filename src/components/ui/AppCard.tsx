@@ -10,9 +10,9 @@ interface App {
   picture: string;
 }
 const AppCard = ({ name, androidLink, iosLink,picture  }: App) => (
-  <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center text-center ">
-    <div className="">
-      {picture}
+  <div className="bg-white p-4 rounded-lg shadow-md flex flex-col items-center text-center aspect-square w-full max-w-[200px] mx-auto">
+    <div className="flex items-center justify-center w-full mb-2">
+      <img src={picture} alt={name} className="w-24 h-24 object-cover rounded-lg bg-gray-100" />
     </div>
     <p className="font-semibold text-blue-950 text-xl mt-2">{name}</p>
     <div className="flex flex-col items-center mt-1 justify-center ">

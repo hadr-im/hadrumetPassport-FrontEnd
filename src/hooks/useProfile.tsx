@@ -52,7 +52,7 @@ const useProfile = () => {
       setError("");
        const headers = getAuthHeaders();
       try {
-        const response = await axios.get("http://192.168.1.131:3000/api/auth/me", {
+        const response = await axios.get("http://localhost:3000/api/auth/me", {
           headers:headers,
         });
 

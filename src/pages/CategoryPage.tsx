@@ -58,15 +58,13 @@ const CategoryPage = () => {
         {category.elements.map((element) => (
           <GenericCard
             key={element.id}
-            type={element.type ?? ""}
             linkTo={`/${category.slug}/${element.slug}`}
             image={element.image}
-            speciality={element.speciality}
             description={element.description}
             title={element.title}
-            date=""
+            address={element.address}
             location={element.location}
-            working_time={element.working_time}
+            // phone removed for basic info only
           />
         ))}
       </div>

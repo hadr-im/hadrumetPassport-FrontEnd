@@ -27,7 +27,7 @@ const useEvents = () => {
         const headers = getAuthHeaders();
         // As before, ensure the protocol (http://) is present
         const response = await axios.get(
-          "http://192.168.1.131:3000/api/events",
+          "http://localhost:3000/api/events",
           {
             headers: headers
           }

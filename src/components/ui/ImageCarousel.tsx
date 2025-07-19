@@ -25,7 +25,7 @@ const ImageCarousel = () => {
 
   return (
     <Carousel
-      className="w-full mt-6"
+      className="w-full mt-2"
       plugins={[plugin.current]}
       opts={{
         align: "start",

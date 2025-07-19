@@ -23,8 +23,10 @@ const PersonCard = ({
 }: PersonInfo) => {
   return (
     <div className=" flex bg-white p-2 items-center shadow-lg rounded-lg">
-      <div className="w-[36%] ">
-        <img className=" rounded-lg  object-cover" src={image} alt="" />
+      <div className="flex items-center justify-center w-[36%]">
+        <div className="w-28 h-28 rounded-lg overflow-hidden flex items-center justify-center bg-gray-100">
+          <img className="w-full h-full object-cover" src={image} alt="" />
+        </div>
       </div>
       <div className=" ml-3">
         <h1 className=" text-blue-950 font-poppins font-semibold text-[17px] ">

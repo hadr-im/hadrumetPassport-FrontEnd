@@ -1,7 +1,8 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
+import { FiEdit, FiTrash2, FiSave, FiX } from "react-icons/fi";
 
-const API_URL = "http://localhost:3000/api/localapps";
+const API_URL = "http://localhost:3000/api/localApps";
 
 interface App {
   id: string;
@@ -226,11 +227,19 @@ const APPsTable = () => {
                       />
                     </td>
                     <td className="p-4 text-black text-center space-x-2">
-                      <button onClick={handleSave} className={buttonClass}>
-                        Save
+                      <button
+                        onClick={handleSave}
+                        className="p-2 rounded-full hover:bg-blue-100 text-blue-600"
+                        title="Save"
+                      >
+                        <FiSave size={18} />
                       </button>
-                      <button onClick={handleCancel} className={buttonClass}>
-                        Cancel
+                      <button
+                        onClick={handleCancel}
+                        className="p-2 rounded-full hover:bg-gray-200 text-gray-600"
+                        title="Cancel"
+                      >
+                        <FiX size={18} />
                       </button>
                     </td>
                   </>
@@ -273,15 +282,17 @@ const APPsTable = () => {
                     <td className="p-4 text-black text-center space-x-2">
                       <button
                         onClick={() => handleEdit(index)}
-                        className={buttonClass}
+                        className="p-2 rounded-full hover:bg-yellow-100 text-yellow-600"
+                        title="Edit"
                       >
-                        Edit
+                        <FiEdit size={18} />
                       </button>
                       <button
                         onClick={() => handleDelete(index)}
-                        className={buttonClass}
+                        className="p-2 rounded-full hover:bg-red-100 text-red-600"
+                        title="Delete"
                       >
-                        Delete
+                        <FiTrash2 size={18} />
                       </button>
                     </td>
                   </>

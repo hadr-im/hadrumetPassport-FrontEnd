@@ -1,4 +1,5 @@
 import { useEffect, useState } from "react";
+import { FiEdit, FiTrash2, FiSave, FiX } from "react-icons/fi";
 
 const API_URL = "http://localhost:3000/api/places";
 
@@ -233,15 +234,17 @@ const PlacesTable = () => {
                     <td className="p-3 text-black space-x-2 text-center">
                       <button
                         onClick={handleSave}
-                        className="bg-blue-400 text-black px-3 py-1 rounded"
+                        className="p-2 rounded-full hover:bg-blue-100 text-blue-600"
+                        title="Save"
                       >
-                        Save
+                        <FiSave size={18} />
                       </button>
                       <button
                         onClick={() => setEditIndex(null)}
-                        className="bg-gray-300 text-black px-3 py-1 rounded"
+                        className="p-2 rounded-full hover:bg-gray-200 text-gray-600"
+                        title="Cancel"
                       >
-                        Cancel
+                        <FiX size={18} />
                       </button>
                     </td>
                   </>
@@ -267,15 +270,17 @@ const PlacesTable = () => {
                     <td className="p-3 text-black space-x-2 text-center">
                       <button
                         onClick={() => handleEdit(index)}
-                        className="bg-yellow-300 text-black px-3 py-1 rounded"
+                        className="p-2 rounded-full hover:bg-yellow-100 text-yellow-600"
+                        title="Edit"
                       >
-                        Edit
+                        <FiEdit size={18} />
                       </button>
                       <button
                         onClick={() => handleDelete(index)}
-                        className="bg-red-400 text-black px-3 py-1 rounded"
+                        className="p-2 rounded-full hover:bg-red-100 text-red-600"
+                        title="Delete"
                       >
-                        Delete
+                        <FiTrash2 size={18} />
                       </button>
                     </td>
                   </>

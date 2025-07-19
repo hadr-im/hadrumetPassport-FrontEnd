@@ -42,7 +42,7 @@ const useOtherEps = () => {
         const headers = getAuthHeaders();
         // We expect the API to return data matching the ApiEp interface
         const response = await axios.get<ApiEp[]>(
-          "http://192.168.1.131:3000/api/realizedEps",
+          "http://localhost:3000/api/realizedEps",
           {
             headers: headers,
           }

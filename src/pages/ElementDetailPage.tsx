@@ -63,9 +63,8 @@ const ElementDetailPage = () => {
               {element.title}
             </h1>
             <h1 className=" text-gray-900 font-poppins font-semibold text-[19px]">
-              {element.type}
+              {element.type ? element.type.charAt(0).toUpperCase() + element.type.slice(1) : ""}
             </h1>
-            <h2 className="text-md text-gray-800">{element.speciality}</h2>
             <p className="text-gray-600 mt-2 font-poppins text-[16px]">
               {element.description}
             </p>
@@ -86,6 +85,16 @@ const ElementDetailPage = () => {
               </h3>
             </div>
 
+            {/* Address */}
+            {element.address && (
+              <div className="flex items-center mt-2">
+                <MdOutlinePlace size={25} className="text-blue-950" />
+                <h3 className="text-blue-950 ml-2 font-semibold text-[17px]">
+                  {element.address}
+                </h3>
+              </div>
+            )}
+
             <a href={element.location} target="_blank" rel="noopener noreferrer">
               <div className="flex items-center mt-2">
                 <MdOutlinePlace size={25} className="text-blue-950" />
@@ -104,6 +113,19 @@ const ElementDetailPage = () => {
               </div>
             )}
           </div>
+          {/* See in Maps Button */}
+          {element.location && (
+            <div className="mt-6 flex justify-center">
+              <a
+                href={element.location}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="bg-blue-600 hover:bg-blue-700 text-white font-semibold px-6 py-2 rounded-lg shadow transition"
+              >
+                See in Maps
+              </a>
+            </div>
+          )}
         </div>
       </div>
     </div>

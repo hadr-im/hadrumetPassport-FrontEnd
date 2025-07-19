@@ -26,7 +26,7 @@ const MyProfile = () => {
     }
     if (profile) {
       return (
-        <div className=" mx-6">
+        <div className=" mx-4">
           <ProfileCard
             name={profile.fullName} 
             job_title="Skill Up" 
@@ -56,7 +56,7 @@ const MyProfile = () => {
   return (
     <div className="">
       <Navbar />
-      <div className=" mx-6">
+      <div className=" mx-4">
          {renderContent()}
       </div>
     </div>

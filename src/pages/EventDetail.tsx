@@ -68,9 +68,9 @@ const EventDetail = () => {
       <Navbar />
       <div className="ml-6 mt-3 pt-2 font-poppins text-blue-950 text-[23px] font-semibold tracking-wide">
         <Link to={`/events`} className="underline">
-          {event.title}
+          Events & Outings
         </Link>
-        <span>/{event.title}</span>
+        <span> / {event.title}</span>
       </div>
 
       <div className="mx-6">
