@@ -15,7 +15,7 @@ interface cardProps {
   endDate?: string;
 }
 
-const GenericCard = ({ image, description, title, address, location, linkTo, phone, startDate, endDate }: cardProps) => {
+const GenericCard = ({ image, description, title, address, linkTo, phone, startDate, endDate }: cardProps) => {
   return (
 
     <div className="shadow-lg p-4 mt-2 rounded-lg bg-white flex flex-col h-full min-h-[300px]">

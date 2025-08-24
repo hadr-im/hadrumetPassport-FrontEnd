@@ -31,6 +31,7 @@ export interface FrontendElement {
   phone?: string;
   delivery?: boolean; // Your API doesn't provide this
   type?: string;
+  address?:string
 }
 
 export interface FrontendCategory {
@@ -64,7 +65,7 @@ const usePlaces = () => {
     const fetchAndProcessPlaces = async () => {
       const headers = getAuthHeaders();
       try {
-        const API_URL = "http://192.168.1.131:3000"; 
+        const API_URL = "https://hadrumetpassportbackend.onrender.com"; 
         const response = await axios.get<ApiPlace[]>(`${API_URL}/api/places/`, {
           headers: headers,
         });

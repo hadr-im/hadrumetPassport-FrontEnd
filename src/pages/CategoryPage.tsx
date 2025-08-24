@@ -62,7 +62,7 @@ const CategoryPage = () => {
             image={element.image}
             description={element.description}
             title={element.title}
-            address={element.address}
+            address={element.address ?? ""}
             location={element.location}
             // phone removed for basic info only
           />
