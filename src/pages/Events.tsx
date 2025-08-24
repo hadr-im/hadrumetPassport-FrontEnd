@@ -51,15 +51,13 @@ const Events = () => {
           {events.map((event) => (
             <GenericCard
               key={event.id}
-              type={event.eventType ?? ""}
               linkTo={`/events/${slugify(event.title)}`}
               image={event.picture}
-              speciality=""
-              description={event.description}
               title={event.title}
-              date={event.startDate}
+              address={event.location}
               location={event.location}
-              working_time={event.dayTime}
+              startDate={event.startDate}
+              endDate={event.endDate}
             />
           ))}
         </div>

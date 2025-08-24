@@ -80,9 +80,9 @@ const Navbar = () => {
           <MenuItem to="/local-apps" icon={<FiGrid />}>Local Apps</MenuItem>
           <MenuItem to="/contacts" icon={<FiMapPin />}>Contacts</MenuItem>
           <MenuItem to="/eps" icon={<FiUsers />}>Other EPs</MenuItem>
-          <button onClick={handleLogout} className="mt-1 w-full text-left items-center font-poppins flex font-semibold text-[18px] text-black hover:bg-[#f0f0f0] py-2 px-6">
-            Log out
-          </button>
+            <button onClick={handleLogout} className="mt-1 w-full text-left items-center font-poppins flex font-semibold text-[18px] text-black hover:bg-[#f0f0f0] py-2 px-6">
+              Log out
+            </button>
         </ul>
       </div>
 

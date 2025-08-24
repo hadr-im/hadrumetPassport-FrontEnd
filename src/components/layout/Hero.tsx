@@ -108,15 +108,17 @@ const Hero = () => {
                   <CarouselContent className="px-2">
                     {events.slice(0, 8).map((event) => (
                       <CarouselItem key={event.id} className="basis-3/4 md:basis-1/3 lg:basis-1/4 px-2">
-                        <GenericCard
-                          linkTo={`/events/${slugify(event.title)}`}
-                          image={event.picture}
-                          title={event.title}
+                <GenericCard
+                  linkTo={`/events/${slugify(event.title)}`}
+                  image={event.picture}
+                  title={event.title}
                           address={event.location}
-                          location={event.location}
-                        />
+                  location={event.location}
+                          startDate={event.startDate}
+                          endDate={event.endDate}
+                />
                       </CarouselItem>
-                    ))}
+              ))}
                   </CarouselContent>
                 </Carousel>
               </div>

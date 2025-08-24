@@ -9,11 +9,13 @@ interface cardProps {
   title: string;
   address: string;
   location: string;
-  linkTo: string;
+  linkTo: string; 
   phone?: string;
+  startDate?: string;
+  endDate?: string;
 }
 
-const GenericCard = ({ image, description, title, address, location, linkTo, phone }: cardProps) => {
+const GenericCard = ({ image, description, title, address, location, linkTo, phone, startDate, endDate }: cardProps) => {
   return (
 
     <div className="shadow-lg p-4 mt-2 rounded-lg bg-white flex flex-col h-full min-h-[300px]">
@@ -26,15 +28,25 @@ const GenericCard = ({ image, description, title, address, location, linkTo, pho
             alt={title}
           />
         </div>
-        <h1 className="mt-3 text-blue-950 font-poppins font-semibold text-[20px] ">
+        <h1 className="mt-3 text-blue-950 font-poppins font-semibold text-base ">
           {title}
         </h1>
+        {/* Event Dates */}
+        {(!!startDate || !!endDate) && (
+          <div className="text-xs text-gray-600 mt-1 font-semibold">
+            {startDate === endDate || !endDate ? (
+              <span>{startDate}</span>
+            ) : (
+              <span>{startDate} - {endDate}</span>
+            )}
+          </div>
+        )}
       </Link>
       
       {description && (
-        <p className="text-gray-600 mt-1 font-poppin text-[14px] line-clamp-3 flex-grow">
-          {description}
-        </p>
+      <p className="text-gray-600 mt-1 font-poppin text-[14px] line-clamp-3 flex-grow">
+        {description}
+      </p>
       )}
 
       <div className="flex flex-col gap-2 mt-4">
@@ -43,10 +55,10 @@ const GenericCard = ({ image, description, title, address, location, linkTo, pho
           <span className="ml-1 text-blue-950 font-semibold text-sm">{address}</span>
         </div>
         {phone && (
-          <div className="flex items-center">
+        <div className="flex items-center">
             <MdPhone className="text-blue-950" size={20} />
             <span className="ml-1 text-blue-950 font-semibold text-sm">{phone}</span>
-          </div>
+        </div>
         )}
       </div>
     </div>

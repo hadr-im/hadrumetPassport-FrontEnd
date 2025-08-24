@@ -14,12 +14,25 @@ import AdminLogin from "./pages/AdminLogin";
 import RequireAdminAuth from "./components/RequireAdminAuth";
 import EventDetail from "./pages/EventDetail";
 import { AuthProvider } from "./context/AuthContext";
+import { useEffect, useState } from "react";
+import splashImg from "@/assets/images/Sousse/splash.png";
 
 const App = () => {
+  const [showSplash, setShowSplash] = useState(true);
+  useEffect(() => {
+    const timer = setTimeout(() => setShowSplash(false), 2000);
+    return () => clearTimeout(timer);
+  }, []);
+  if (showSplash) {
+    return (
+      <div className="flex items-center justify-center h-screen w-screen bg-white">
+        <img src={splashImg} alt="Splash" className="w-64 h-64 object-contain" />
+      </div>
+    );
+  }
   return (
     <div>
       <AuthProvider>
-        {" "}
         {/* WRAP YOUR APP WITH THE PROVIDER */}
         <BrowserRouter>
           <Routes>
@@ -42,9 +55,7 @@ const App = () => {
               }
             />
             <Route path="/events" element={<Events />} />
-            
             <Route path="/events/:eventSlug" element={<EventDetail />} />
-
             <Route path="/:categorySlug" element={<CategoryPage />} />
             <Route
               path="/:categorySlug/:elementSlug"

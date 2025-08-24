@@ -26,11 +26,10 @@ export interface FrontendElement {
   image: string;
   speciality: string;
   description: string;
-  address: string; // Human-readable address
-  location: string; // Google Maps URL
-  working_time: string;
+  location: string;
+  working_time: string; // Your API doesn't provide this, so we'll use a default
   phone?: string;
-  delivery?: boolean;
+  delivery?: boolean; // Your API doesn't provide this
   type?: string;
 }
 
@@ -65,7 +64,7 @@ const usePlaces = () => {
     const fetchAndProcessPlaces = async () => {
       const headers = getAuthHeaders();
       try {
-        const API_URL = "http://localhost:3000"; 
+        const API_URL = "http://192.168.1.131:3000"; 
         const response = await axios.get<ApiPlace[]>(`${API_URL}/api/places/`, {
           headers: headers,
         });
@@ -89,15 +88,14 @@ const usePlaces = () => {
           // Map the API place to the structure the frontend component expects
           const frontendElement: FrontendElement = {
             id: place.id,
-            slug: slugify(place.name),
+            slug: slugify(place.name), // Create a slug from the place name
             title: place.name,
             image: place.picture,
             description: place.description,
-            address: place.location, // Human-readable address
-            location: place.google_maps_url, // Google Maps URL
+            location: place.google_maps_url,
             phone: place.phone,
-            speciality: place.category_id || "",
-            type: place.category_id || "",
+            // Add default values for fields not in your API response
+            speciality: "N/A",
             working_time: "09:00 - 22:00",
             delivery: false,
           };
