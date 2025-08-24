@@ -1,4 +1,3 @@
-import React from 'react'
 import { FiHome, FiUser, FiCalendar, FiPhone, FiGrid, FiUsers, FiMapPin } from "react-icons/fi";
 import { Link } from "react-router-dom";
 

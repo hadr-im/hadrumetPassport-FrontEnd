@@ -150,8 +150,6 @@ const APPsTable = () => {
     }
   };
 
-  const buttonClass =
-    "bg-purple-400 hover:bg-purple-500 text-black px-4 py-1 rounded-lg shadow";
 
   return (
     <div className="mb-12">
