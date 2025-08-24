@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2, FiSend } from "react-icons/fi";
 
-const API_URL = "http://localhost:3000/api/users";
+const API_URL = "https://hadrumetpassportbackend.onrender.com/api/users";
 
 interface Ep {
   id?: string;
@@ -106,7 +106,7 @@ const EPsTable = () => {
     const user = eps[index];
     const token = localStorage.getItem("adminToken");
     try {
-      const res = await fetch("http://localhost:3000/api/sendEmail", {
+      const res = await fetch("https://hadrumetpassportbackend.onrender.com/api/sendEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",

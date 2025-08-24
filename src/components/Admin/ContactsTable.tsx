@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { Contact } from "lucide-react";
 import { FiEdit, FiTrash2, FiSave, FiX } from "react-icons/fi";
 
-const API_URL = "http://localhost:3000/api/contacts";
+const API_URL = "https://hadrumetpassportbackend.onrender.com/api/contacts";
 
 interface Contact {
   id: string;

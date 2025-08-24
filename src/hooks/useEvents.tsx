@@ -27,7 +27,7 @@ const useEvents = () => {
         const headers = getAuthHeaders();
         // As before, ensure the protocol (http://) is present
         const response = await axios.get(
-          "http://localhost:3000/api/events",
+          "https://hadrumetpassportbackend.onrender.com/api/events",
           {
             headers: headers
           }

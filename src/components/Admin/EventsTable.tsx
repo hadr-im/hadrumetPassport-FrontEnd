@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2, FiSave, FiX } from "react-icons/fi";
 
-const API_URL = "http://localhost:3000/api/events";
+const API_URL = "https://hadrumetpassportbackend.onrender.com/api/events";
 
 interface Event {
   id: string;

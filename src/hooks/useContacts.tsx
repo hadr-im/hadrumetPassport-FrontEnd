@@ -39,7 +39,7 @@ const useContacts = () => {
         const headers = getAuthHeaders();
         // As before, ensure the protocol (http://) is present
         const response = await axios.get(
-          "http://localhost:3000/api/contacts",
+          "https://hadrumetpassportbackend.onrender.com/api/contacts",
           {
             headers: headers
           }

@@ -1,8 +1,9 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 /* eslint-disable @typescript-eslint/no-unused-vars */
 import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2, FiSave, FiX } from "react-icons/fi";
 
-const API_URL = "http://localhost:3000/api/localApps";
+const API_URL = "https://hadrumetpassportbackend.onrender.com/api/localApps";
 
 interface App {
   id: string;
