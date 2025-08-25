@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2, FiSave, FiX } from "react-icons/fi";
 
-const API_URL = "https://hadrumetpassportbackend.onrender.com/api/places";
+const API_URL = "https://hadrumet-passport-backend.onrender.com/api/places";
 
 interface Place {
   id: string;

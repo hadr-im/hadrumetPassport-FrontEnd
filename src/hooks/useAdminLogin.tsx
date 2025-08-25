@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -15,7 +16,7 @@ const useAdminLogin = () => {
     setError("");
     try {
       const response = await axios.post(
-        "https://hadrumetpassportbackend.onrender.com/api/admin/login",
+        "https://hadrumet-passport-backend.onrender.com/api/admin/login",
         { username, password },
         {
           headers: {

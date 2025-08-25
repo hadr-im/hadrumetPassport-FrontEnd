@@ -20,7 +20,7 @@ const useLogin = () => {
 
         try {
             const response = await axios.post(
-                "https://hadrumetpassportbackend.onrender.com/api/auth/login",
+                "https://hadrumet-passport-backend.onrender.com/api/auth/login",
                 {
                     appID: appId,
                     password: password

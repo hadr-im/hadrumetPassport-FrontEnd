@@ -23,7 +23,7 @@ const useLocalApps = () => {
       try {
         const headers = getAuthHeaders();
         const response = await axios.get(
-          "https://hadrumetpassportbackend.onrender.com/api/localApps",
+          "https://hadrumet-passport-backend.onrender.com/api/localApps",
           {
             headers: headers
           }

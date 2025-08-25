@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2, FiSave, FiX } from "react-icons/fi";
 
-const API_URL = "https://hadrumetpassportbackend.onrender.com/api/localApps";
+const API_URL = "https://hadrumet-passport-backend.onrender.com/api/localApps";
 
 interface App {
   id: string;

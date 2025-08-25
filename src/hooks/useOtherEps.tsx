@@ -42,7 +42,7 @@ const useOtherEps = () => {
         const headers = getAuthHeaders();
         // We expect the API to return data matching the ApiEp interface
         const response = await axios.get<ApiEp[]>(
-          "https://hadrumetpassportbackend.onrender.com/api/realizedEps",
+          "https://hadrumet-passport-backend.onrender.com/api/realizedEps",
           {
             headers: headers,
           }

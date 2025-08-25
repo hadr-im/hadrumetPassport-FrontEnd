@@ -65,7 +65,7 @@ const usePlaces = () => {
     const fetchAndProcessPlaces = async () => {
       const headers = getAuthHeaders();
       try {
-        const API_URL = "https://hadrumetpassportbackend.onrender.com"; 
+        const API_URL = "https://hadrumet-passport-backend.onrender.com"; 
         const response = await axios.get<ApiPlace[]>(`${API_URL}/api/places/`, {
           headers: headers,
         });

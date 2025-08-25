@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 import { useEffect, useState } from "react";
 import { FiEdit, FiTrash2, FiSend } from "react-icons/fi";
 
-const API_URL = "https://hadrumetpassportbackend.onrender.com/api/users";
+const API_URL = "https://hadrumet-passport-backend.onrender.com/api/users";
 
 interface Ep {
   id?: string;
@@ -106,7 +107,7 @@ const EPsTable = () => {
     const user = eps[index];
     const token = localStorage.getItem("adminToken");
     try {
-      const res = await fetch("https://hadrumetpassportbackend.onrender.com/api/sendEmail", {
+      const res = await fetch("https://hadrumet-passport-backend.onrender.com/api/sendEmail", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
