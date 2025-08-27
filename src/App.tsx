@@ -16,6 +16,7 @@ import EventDetail from "./pages/EventDetail";
 import { AuthProvider } from "./context/AuthContext";
 import { useEffect, useState } from "react";
 import splashImg from "@/assets/images/Sousse/splash.png";
+import RequireAuth from "./components/RequireAuth"; // Import the new component
 
 const App = () => {
   const [showSplash, setShowSplash] = useState(true);
@@ -33,19 +34,27 @@ const App = () => {
   return (
     <div>
       <AuthProvider>
-        {/* WRAP YOUR APP WITH THE PROVIDER */}
         <BrowserRouter>
           <Routes>
-            {/* --- 1. MOST SPECIFIC STATIC ROUTES --- */}
-            {/* List all your well-defined pages first. */}
-            <Route path="/" element={<Home />} />
-            <Route path="/eps" element={<Eps />} />
-            <Route path="/contacts" element={<Contacts />} />
-            <Route path="/my-profile" element={<MyProfile />} />
-            <Route path="/emergency" element={<EmergencyContacts />} />
-            <Route path="/local-apps" element={<LocalApps />} />
+            {/* Public Routes - Accessible without login */}
             <Route path="/login" element={<Login />} />
             <Route path="/admin-login" element={<AdminLogin />} />
+
+            {/* Protected Routes - Requires regular user login */}
+            <Route element={<RequireAuth />}> {/* This route acts as a wrapper */}
+              <Route path="/" element={<Home />} />
+              <Route path="/eps" element={<Eps />} />
+              <Route path="/contacts" element={<Contacts />} />
+              <Route path="/my-profile" element={<MyProfile />} />
+              <Route path="/emergency" element={<EmergencyContacts />} />
+              <Route path="/local-apps" element={<LocalApps />} />
+              <Route path="/events" element={<Events />} />
+              <Route path="/events/:eventSlug" element={<EventDetail />} />
+              <Route path="/:categorySlug" element={<CategoryPage />} />
+              <Route path="/:categorySlug/:elementSlug" element={<ElementDetailPage />} />
+            </Route>
+
+            {/* Admin Protected Route */}
             <Route
               path="/dep/im/admin"
               element={
@@ -53,13 +62,6 @@ const App = () => {
                   <AdminPanel />
                 </RequireAdminAuth>
               }
-            />
-            <Route path="/events" element={<Events />} />
-            <Route path="/events/:eventSlug" element={<EventDetail />} />
-            <Route path="/:categorySlug" element={<CategoryPage />} />
-            <Route
-              path="/:categorySlug/:elementSlug"
-              element={<ElementDetailPage />}
             />
           </Routes>
         </BrowserRouter>

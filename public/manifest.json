@@ -1,0 +1,25 @@
+{
+  "short_name": "Hadrumet-Passport-App",
+  "name": "Hadrumet Passport Mobile Application", 
+  "icons": [
+    {
+      "src": "/images/icons/splash-128.png", 
+      "sizes": "128x128",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icons/splash-256.png", 
+      "sizes": "256x256",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/icons/splash-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0F172A", 
+  "background_color": "#ffffff" 
+}
